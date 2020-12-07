@@ -149,6 +149,14 @@ public class Permissions extends CordovaPlugin {
                     return;
                 }
             }
+            if (permissionArray.length == 1 && "android.permission.ACTIVITY_RECOGNITION".equals(permissionArray[0]) && Build.VERSION.SDK_INT < 29 ) {
+
+                //Add dummy permision
+                JSONObject returnObj = new JSONObject();
+                addProperty(returnObj, KEY_RESULT_PERMISSION, true);
+                callbackContext.success(returnObj);
+                return;
+            }
             cordova.requestPermissions(this, REQUEST_CODE_ENABLE_PERMISSION, permissionArray);
         }
     }
